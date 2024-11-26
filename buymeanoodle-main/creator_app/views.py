@@ -190,8 +190,8 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from cryptomus import Client
-from .forms import PassengerForm, PassengerRegForm, AdminPassengerRegForm
-from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg
+from .forms import PassengerForm, PassengerRegForm, AdminPassengerRegForm, ChildrenRegForm
+from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form
 import pyrebase
 import uuid
 import logging
@@ -267,13 +267,13 @@ def reg_passenger_form(request, id=0):
 
 
 def reg_passenger_list(request):
-    passengers = Passenger_Reg.objects.all()
-    return render(request, 'creator_app/reg_passenger_list.html', {'reg_passenger_list': passengers})
+    passengers1 = Passenger_Reg.objects.all()
+    return render(request, 'creator_app/reg_passenger_list.html', {'reg_passenger_list': passengers1})
 
 
 def reg_passenger_delete(request, id):
-    passenger = get_object_or_404(Passenger_Reg, pk=id)
-    passenger.delete()
+    passenger1 = get_object_or_404(Passenger_Reg, pk=id)
+    passenger1.delete()
     return redirect('creator_app:reg_passenger_list')
 
 
@@ -285,11 +285,74 @@ def admin_passenger_form(request, id=0):
 
 
 def admin_passenger_list(request):
-    passengers = Admin_Passenger_Reg.objects.all()
-    return render(request, 'creator_app/admin_passenger_list.html', {'admin_passenger_list': passengers})
+    passengers2 = Admin_Passenger_Reg.objects.all()
+    return render(request, 'creator_app/admin_passenger_list.html', {'admin_passenger_list': passengers2})
 
 
 def admin_passenger_delete(request, id):
-    passenger = get_object_or_404(Admin_Passenger_Reg, pk=id)
-    passenger.delete()
+    passenger2 = get_object_or_404(Admin_Passenger_Reg, pk=id)
+    passenger2.delete()
     return redirect('creator_app:admin_passenger_list')
+
+def passenger_home(request):
+    return render(request, 'creator_app/passenger_home.html') 
+
+def select_cat(request):
+    return render(request, 'creator_app/select_cat.html')
+
+
+ROUTE_PRICES = {
+    ('Kaduwela', 'Kothalawala'): 50,
+    ('Kothalawala', 'Malabe'): 40,
+    ('Malabe', 'Thalangama'): 30,
+    ('Thalangama', 'Koswatta'): 60,
+    ('Koswatta', 'Battaramulla'): 70,
+    ('Battaramulla', 'Welikada'): 80,
+    ('Welikada', 'Rajagiriya'): 90,
+    ('Rajagiriya', 'Ayurveda Junction'): 100,
+    ('Ayurveda Junction', 'Castle Street'): 120,
+    ('Castle Street', 'Devi Balika Junction'): 140,
+    ('Devi Balika Junction', 'Senanayake Junction (Borella)'): 160,
+    ('Senanayake Junction (Borella)', 'Horton Place'): 180,
+    ('Horton Place', 'Liberty Junction'): 200,
+    ('Liberty Junction', 'Kollupitiya (Station Road)'): 220,
+}
+
+def children_form(request, id=0):
+    if request.method == "POST":
+        if id == 0:
+            form = ChildrenRegForm(request.POST)
+        else:
+            child = get_object_or_404(Children_form, pk=id)
+            form = ChildrenRegForm(request.POST, instance=child)
+        
+        if form.is_valid():
+            # Save the form instance
+            child = form.save(commit=False)
+
+            # Calculate ticket price
+            route = (child.c_from, child.c_to)
+            child.price = ROUTE_PRICES.get(route, 0)  # Assign price or default to 0
+
+            # Save the object to the database
+            child.save()
+            return redirect('creator_app:children_list')
+    else:
+        if id == 0:
+            form = ChildrenRegForm()
+        else:
+            child = get_object_or_404(Children_form, pk=id)
+            form = ChildrenRegForm(instance=child)
+
+    return render(request, 'creator_app/children_form.html', {'form': form})
+
+
+def children_list(request):
+    children = Children_form.objects.all()
+    return render(request, 'creator_app/children_list.html', {'children_list': children})
+
+
+def children_delete(request, id):
+    child = get_object_or_404(Children_form, pk=id)
+    child.delete()
+    return redirect('creator_app:children_list')

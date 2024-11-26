@@ -21,7 +21,7 @@
 
 
 from django.forms import ModelForm
-from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg
+from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form
 from django import forms 
 
 
@@ -70,4 +70,30 @@ class AdminPassengerRegForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AdminPassengerRegForm, self).__init__(*args, **kwargs)
         self.fields['card_id1'].required = False
-               
+        
+        
+LOCATIONS = [
+    ('Kaduwela', 'Kaduwela'),
+    ('Kothalawala', 'Kothalawala'),
+    ('Malabe', 'Malabe'),
+    ('Thalangama', 'Thalangama'),
+    ('Koswatta', 'Koswatta'),
+    ('Battaramulla', 'Battaramulla'),
+    ('Welikada', 'Welikada'),
+    ('Rajagiriya', 'Rajagiriya'),
+    ('Ayurveda Junction', 'Ayurveda Junction'),
+    ('Castle Street', 'Castle Street'),
+    ('Devi Balika Junction', 'Devi Balika Junction'),
+    ('Senanayake Junction (Borella)', 'Senanayake Junction (Borella)'),
+    ('Horton Place', 'Horton Place'),
+    ('Liberty Junction', 'Liberty Junction'),
+    ('Kollupitiya (Station Road)', 'Kollupitiya (Station Road)'),
+]
+
+class ChildrenRegForm(forms.ModelForm):
+    c_from = forms.ChoiceField(choices=LOCATIONS, label="From")
+    c_to = forms.ChoiceField(choices=LOCATIONS, label="To")
+
+    class Meta:
+        model = Children_form
+        fields = ('c_from', 'c_to')

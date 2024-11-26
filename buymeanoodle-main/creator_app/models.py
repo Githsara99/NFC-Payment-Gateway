@@ -125,4 +125,8 @@ class Admin_Passenger_Reg(models.Model):
     card_id1 = models.CharField(max_length=50, blank=True, null=True)
 
    
-   
+class Children_form(models.Model):
+    c_to = models.CharField(max_length=100)
+    c_from = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Add price field
+

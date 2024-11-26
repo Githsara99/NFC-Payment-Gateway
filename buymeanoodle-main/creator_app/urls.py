@@ -76,6 +76,12 @@ from . import views
 app_name = 'creator_app'
 
 urlpatterns = [
+    # Children URLs
+    path('childCreate/', views.children_form, name="children_insert"),
+    path('childList/', views.children_list, name="children_list"),
+    path('<int:id>/', views.children_form, name="children_update"),
+    path('childDelete/<int:id>', views.children_delete, name="children_delete"),
+    
     # Passenger URLs
     path('create/', views.passenger_form, name="passenger_insert"),
     path('list/', views.passenger_list, name="passenger_list"),
@@ -94,4 +100,6 @@ urlpatterns = [
     path('admin/<int:id>/', views.admin_passenger_form, name="admin_reg_passenger_update"),
     path('admin/deleteReg/<int:id>', views.admin_passenger_delete, name="admin_reg_passenger_delete"),
     
+    path('passengerHome/', views.passenger_home, name="passenger_home"),
+    path('selectCat/', views.select_cat, name="select_cat"),
 ]
