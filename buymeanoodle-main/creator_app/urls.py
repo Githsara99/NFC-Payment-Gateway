@@ -79,8 +79,24 @@ urlpatterns = [
     # Children URLs
     path('childCreate/', views.children_form, name="children_insert"),
     path('childList/', views.children_list, name="children_list"),
-    path('<int:id>/', views.children_form, name="children_update"),
+    path('childUpdate<int:id>/', views.children_form, name="children_update"),
     path('childDelete/<int:id>', views.children_delete, name="children_delete"),
+    
+    path('childCardCreate/', views.childrenCard_form, name="childrenCard_insert"),
+    path('childCardList/', views.childrCard_list, name="childCard_list"),
+    path('childCardUpdate/<int:id>/', views.childrenCard_form, name="childrenCard_update"),
+    path('childCardDelete/<int:id>', views.childrenCard_delete, name="childrenCard_delete"),
+    
+    # Adults URLs
+    path('adultsCreate/', views.adults_form, name="adults_insert"),
+    path('adultsList/', views.adults_list, name="adults_list"),
+    path('<int:id>/', views.adults_form, name="adults_update"),
+    path('adultsDelete/<int:id>', views.adults_delete, name="adults_delete"),
+    
+    path('adultsCardCreate/', views.adultsCard_form, name="adultsCard_insert"),
+    path('adultCardList/', views.adultsCard_list, name="adultsCard_list"),
+    path('adultCardUpdate/<int:id>/', views.adultsCard_form, name="adultsCard_update"),
+    path('adultCardDelete/<int:id>', views.adultsCard_delete, name="adultsCard_delete"),
     
     # Passenger URLs
     path('create/', views.passenger_form, name="passenger_insert"),

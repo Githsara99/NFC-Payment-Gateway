@@ -10,7 +10,7 @@
                 <th class="py-2 px-4 text-gray-700 font-semibold">Price</th> <!-- Add Price Column -->
                 <td>
                     <div class="flex items-center">
-                        <a href="{% url 'creator_app:children_insert' %}" 
+                        <a href="{% url 'creator_app:adults_insert' %}" 
                            class="flex items-center text-blue-600 hover:text-blue-800 font-medium space-x-2">
                             <i class="fas fa-plus text-lg"></i>
                             <span>Add New Root</span>
@@ -20,19 +20,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for child in children_list %}
+            {% for adult in adults_list %}
             <tr class="border-b hover:bg-gray-50">
-                <td class="py-2 px-4 whitespace-nowrap">{{ child.c_from }}</td>
-                <td class="py-2 px-4 whitespace-nowrap">{{ child.c_to }}</td>
-                <td class="py-2 px-4 whitespace-nowrap">{{ child.price }}</td> <!-- Display Price -->
+                <td class="py-2 px-4 whitespace-nowrap">{{ adult.a_from }}</td>
+                <td class="py-2 px-4 whitespace-nowrap">{{ adult.a_to }}</td>
+                <td class="py-2 px-4 whitespace-nowrap">{{ adult.price }}</td> <!-- Display Price -->
                 <td class="py-2 px-4 whitespace-nowrap flex items-center space-x-4">
-                    <a href="{% url 'creator_app:children_update' child.id %}" class="text-gray-500 hover:text-gray-700 p-0">
+                    <a href="{% url 'creator_app:adults_update' adult.id %}" class="text-gray-500 hover:text-gray-700 p-0">
                         <i class="far fa-edit text-lg"></i>
                     </a>
-                    <a href="{% url 'creator_app:childrenCard_insert' %}" class="text-gray-500 hover:text-green-700 p-0">
+                    <a href="{% url 'creator_app:adultsCard_insert' %}" class="text-gray-500 hover:text-green-700 p-0">
                         <i class="far fa-credit-card text-lg"></i>
                     </a>
-                    <form action="{% url 'creator_app:children_delete' child.id %}" method="post" class="inline-block">
+                    <form action="{% url 'creator_app:adults_delete' adult.id %}" method="post" class="inline-block">
                         {% csrf_token %}
                         <button type="submit" class="text-red-500 hover:text-red-700">
                             <i class="fas fa-trash-alt text-lg"></i>

@@ -21,7 +21,7 @@
 
 
 from django.forms import ModelForm
-from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form
+from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form, ChildCard_form, Adults_form, AdultsCard_form
 from django import forms 
 
 
@@ -97,3 +97,33 @@ class ChildrenRegForm(forms.ModelForm):
     class Meta:
         model = Children_form
         fields = ('c_from', 'c_to')
+
+
+class ChildCardForm(forms.ModelForm):
+    class Meta:
+        model = ChildCard_form
+        fields = ('childName', 'childAddress', 'childMobile')
+        labels = {
+            'childName': 'Name',
+            'childAddress': 'Address',
+            'childMobile': 'Mobile',
+        }
+
+class AdultsRegForm(forms.ModelForm):
+    a_from = forms.ChoiceField(choices=LOCATIONS, label="From")
+    a_to = forms.ChoiceField(choices=LOCATIONS, label="To")
+
+    class Meta:
+        model = Adults_form
+        fields = ('a_from', 'a_to')
+
+
+class AdultsCardForm(forms.ModelForm):
+    class Meta:
+        model = AdultsCard_form
+        fields = ('adultsName', 'adultsAddress', 'adultsMobile')
+        labels = {
+            'adultsName': 'Name',
+            'adultsAddress': 'Address',
+            'adultsMobile': 'Mobile',
+        }      

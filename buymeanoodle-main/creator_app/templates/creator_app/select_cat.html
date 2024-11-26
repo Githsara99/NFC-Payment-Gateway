@@ -12,9 +12,16 @@
 <div class="py-12 bg-slate-800">
 
     <div class="py-6 px-8 space-y-6 text-center">
-        <button class="py-4 px-6 text-xl text-white bg-green-600 rounded-xl">Children</button>
-        <button class="py-4 px-6 text-xl text-white bg-blue-600 rounded-xl">Adults</button>
-        <button class="py-4 px-6 text-xl text-white bg-blue-600 rounded-xl">Seniors</button>
+
+        <a href="{% url 'creator_app:children_insert' %}" 
+        class="py-4 px-6 text-xl text-white bg-green-600 rounded-xl">
+        </i> Children
+        </a>  
+        <a href="{% url 'creator_app:adults_insert' %}" 
+        class="py-4 px-6 text-xl text-white bg-green-600 rounded-xl">
+        </i> Adults
+        </a> 
+
     </div>
     
 </div>
