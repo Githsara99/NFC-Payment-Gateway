@@ -297,3 +297,6 @@ def webhook(request):
 
 def admin_home(request):
     return render(request, 'creator_app/admin_home.html')
+
+def manage_passengers(request):
+    return render(request, 'creator_app/manage_passengers.html')

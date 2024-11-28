@@ -2,43 +2,47 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form action="" method="post" autocomplete="off" class="space-y-6 bg-white shadow-md rounded-lg p-6 max-w-4xl mx-auto">
+<form action="" method="post" autocomplete="off" class="space-y-6 bg-white shadow-lg rounded-lg p-8 max-w-4xl mx-auto">
     {% csrf_token %}
-    <div>
+    
+    <div class="mb-4">
         {{ form.name|as_crispy_field }}
     </div>
-    <div>
+    <div class="mb-4">
         {{ form.category|as_crispy_field }}
     </div>
-    <div>
+    <div class="mb-4">
         {{ form.card_id|as_crispy_field }}
     </div>
-    <div>
+    <div class="mb-4">
         {{ form.mobile|as_crispy_field }}
     </div>
-    <div>
+    <div class="mb-4">
         {{ form.address|as_crispy_field }}
     </div>
-    <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-4">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
             {{ form.p_from|as_crispy_field }}
         </div>
-        <div class="col-span-8">
+        <div>
             {{ form.p_to|as_crispy_field }}
         </div>
     </div>
-    <div class="flex justify-end">
-        <button type="submit" class="flex items-center px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
-            <i class="fas fa-database mr-2"></i>
+
+    <div class="flex justify-between mt-6">
+        <a href="{% url 'creator_app:passenger_list' %}" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md hover:bg-gray-300 transition">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to the list you entered
+        </a>
+        <button type="submit" class="inline-flex items-center px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition">
+            <i class="fas fa-check-circle mr-2"></i>
             Submit
         </button>
-    </div>
-    <div class="col-span-4">
-        <a href="{% url 'creator_app:passenger_list' %}" class="block bg-gray-500 text-white text-center py-2 rounded-md hover:bg-gray-600">
-            <i class="fas fa-stream"></i> Back to the list
+        <a href="{% url 'creator_app:manage_passengers' %}" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md hover:bg-gray-300 transition">
+            <i class="fas fa-arrow-right mr-2"></i>
+            Back to the list user entered
         </a>
     </div>
-    
-</div>
 </form>
 {% endblock content %}

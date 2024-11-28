@@ -123,4 +123,5 @@ urlpatterns = [
     path('passengerHome/', views.passenger_home, name="passenger_home"),
     path('selectCat/', views.select_cat, name="select_cat"),
     path('adminHome/', views.admin_home, name="admin_home"),
+    path('managePassengers/', views.manage_passengers, name="manage_passengers"),
 ]
