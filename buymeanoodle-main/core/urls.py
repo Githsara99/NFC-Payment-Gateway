@@ -7,5 +7,6 @@ app_name = 'core'
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.admin_home, name="admin_home"),
+    path('index', views.index, name='index'),
 ]

@@ -106,12 +106,12 @@ from django.db import models
 
 class Passenger(models.Model):
     name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, blank=True, null=True)
     card_id = models.CharField(max_length=50, blank=True, null=True)
     mobile = models.CharField(max_length=15)
-    recharge = models.DecimalField(max_digits=10, decimal_places=2)
-    famount = models.DecimalField(max_digits=10, decimal_places=2)
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
-
+    address = models.CharField(max_length=100, blank=True, null=True)
+    p_from = models.CharField(max_length=100, blank=True, null=True)
+    p_to =models.CharField(max_length=100, blank=True, null=True)
 
 class Passenger_Reg(models.Model):
     name = models.CharField(max_length=100)
@@ -144,3 +144,14 @@ class AdultsCard_form(models.Model):
     adultsName = models.CharField(max_length=100)
     adultsAddress = models.CharField(max_length=150)
     adultsMobile = models.CharField(max_length=15)
+    
+
+class CryptoPayment(models.Model):
+    transaction_id = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=10)
+    status = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.transaction_id    

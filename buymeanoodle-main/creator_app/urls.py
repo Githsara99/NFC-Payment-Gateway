@@ -76,6 +76,10 @@ from . import views
 app_name = 'creator_app'
 
 urlpatterns = [
+    
+    path('create-payment/', views.create_payment, name='create_payment'),
+    path('webhook/', views.webhook, name='webhook'),
+    
     # Children URLs
     path('childCreate/', views.children_form, name="children_insert"),
     path('childList/', views.children_list, name="children_list"),
@@ -101,7 +105,7 @@ urlpatterns = [
     # Passenger URLs
     path('create/', views.passenger_form, name="passenger_insert"),
     path('list/', views.passenger_list, name="passenger_list"),
-    path('<int:id>/', views.passenger_form, name="passenger_update"),
+    path('passengerUpdate/<int:id>/', views.passenger_form, name="passenger_update"),
     path('delete/<int:id>', views.passenger_delete, name="passenger_delete"),
     
     # Registered Passenger URLs
@@ -118,4 +122,5 @@ urlpatterns = [
     
     path('passengerHome/', views.passenger_home, name="passenger_home"),
     path('selectCat/', views.select_cat, name="select_cat"),
+    path('adminHome/', views.admin_home, name="admin_home"),
 ]

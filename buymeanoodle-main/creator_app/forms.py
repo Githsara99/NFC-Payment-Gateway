@@ -23,24 +23,6 @@
 from django.forms import ModelForm
 from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form, ChildCard_form, Adults_form, AdultsCard_form
 from django import forms 
-
-
-class PassengerForm(forms.ModelForm):
-    class Meta:
-        model = Passenger
-        fields = ('name', 'card_id', 'mobile', 'recharge', 'famount', 'balance',)
-        labels ={
-            'name':'Name',
-            'card_id':'Card ID',
-            'mobile':'Mobile',
-            'recharge':'Recharge',
-            'famount':'Final Amount',
-            'balance':'Balance',   
-        }
-    
-    def __init__(self, *args, **kwargs):
-        super(PassengerForm,self).__init__(*args, **kwargs)
-        self.fields['card_id'].required = False
         
 
 class PassengerRegForm(forms.ModelForm):
@@ -89,6 +71,34 @@ LOCATIONS = [
     ('Liberty Junction', 'Liberty Junction'),
     ('Kollupitiya (Station Road)', 'Kollupitiya (Station Road)'),
 ]
+
+CAT = [
+    ('Child', 'Adult'),
+]
+
+
+class PassengerForm(forms.ModelForm):
+    
+    p_from = forms.ChoiceField(choices=LOCATIONS, label="From")
+    p_to = forms.ChoiceField(choices=LOCATIONS, label="To")
+    category = forms.ChoiceField(choices=CAT, label="Passenger")
+    
+    class Meta:
+        model = Passenger
+        fields = ('name', 'category', 'card_id', 'mobile', 'address', 'p_from', 'p_to',)
+        labels ={
+            'name':'Name',
+            'category':'Category',
+            'card_id':'Card ID',
+            'mobile':'Mobile',
+            'address':'Address',
+            # 'p_from':'Passenger From',
+            # 'p_to':'Passenger to',   
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(PassengerForm,self).__init__(*args, **kwargs)
+        self.fields['card_id'].required = False
 
 class ChildrenRegForm(forms.ModelForm):
     c_from = forms.ChoiceField(choices=LOCATIONS, label="From")

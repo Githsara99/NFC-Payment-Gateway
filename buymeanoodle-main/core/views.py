@@ -10,8 +10,11 @@ def index(request):
         try:
             creator = request.user.creator
         except Exception:
-            return redirect('creator:edit')
+            return redirect('create_app:admin_home')
         
     return render(request, 'core/index.html', {
         'creators': creators
     })
+    
+def admin_home(request):
+    return render(request, 'creator_app/admin_home.html')    

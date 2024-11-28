@@ -32,6 +32,11 @@ LOGIN_REDIRECT_URL = 'core:index'
 
 CRISPY_TEMPLATE_PACK = 'tailwind'
 
+COINBASE_COMMERCE_API_KEY = "5fae2e70-7c6e-45df-bb29-032f4506b6bc"
+
+CRYPTO_API_KEY = "4b6b1a51-796d-491e-8835-8c45b5a2afd1"
+#CRYPTO_API_SECRET = "MHcCAQEEIAZoOAyiKt+gnhsbh0wAAs3y6IcuBnFMs/KmUGsB+QtFoAoGCCqGSM49\nAwEHoUQDQgAEoknYNQo5DRiZZKx8lxRLeaSmXBEvVv53t1Q8NX3Vaih/PuCB4s2+\nlhnnegMlYL2rtyn4T0v8WNtSdT7GQiTp6w=="
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,12 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'payments.apps.PaymentsConfig',
     'core',
     'creator',
     'creator_app',
     'cryptomus',
     'crispy_forms',
-    "crispy_tailwind",     
+    "crispy_tailwind",
+    "coinbase_commerce",
 ]
 
 MIDDLEWARE = [

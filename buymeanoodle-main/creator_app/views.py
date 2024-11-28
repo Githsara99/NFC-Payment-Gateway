@@ -9,10 +9,11 @@ from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form
 import pyrebase
 import uuid
 import logging
+import json
 
 # Logging configuration
 logger = logging.getLogger(__name__)
-
+CRYPTO_API_KEY = "4b6b1a51-796d-491e-8835-8c45b5a2afd1"
 MERCHANT_UUID = '621379c1-acca-4252-bd66-2e86bfcff04'
 PAYMENT_KEY = '1P9521ebLUosz8zANZEOlFTNreI6DkI8qKefuQaDWGzug8r3Wz7k3N2CEdIzj5OjgiaqUfVxismOqPND'
 
@@ -249,3 +250,50 @@ def adultsCard_delete(request, id):
     adultCard = get_object_or_404(AdultsCard_form, pk=id)
     adultCard.delete()
     return redirect('creator_app:adultsCard_list')
+
+
+##########################################
+
+from coinbase_commerce.client import Client
+from django.conf import settings
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+import json
+import logging
+
+logger = logging.getLogger(__name__)
+
+def create_payment(request):
+    try:
+        client = Client(api_key=settings.CRYPTO_API_KEY)
+        charge_data = {
+            "name": "Test Payment",
+            "description": "Test description",
+            "local_price": {"amount": "10.00", "currency": "USD"},
+            "pricing_type": "fixed_price",
+        }
+        charge = client.charge.create(**charge_data)
+        return render(request, 'payment.html', {'charge': charge})
+    except Exception as e:
+        logger.error(f"Error in create_payment: {e}")
+        return JsonResponse({'error': 'Failed to create payment'}, status=500)
+
+@csrf_exempt
+def webhook(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            event = data.get("event")
+            logger.info(f"Received webhook event: {event}")
+            # Add logic to handle the webhook event
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            logger.error(f"Webhook error: {e}")
+            return JsonResponse({"status": "error"}, status=400)
+    return JsonResponse({"status": "failed"}, status=405)
+
+
+
+def admin_home(request):
+    return render(request, 'creator_app/admin_home.html')

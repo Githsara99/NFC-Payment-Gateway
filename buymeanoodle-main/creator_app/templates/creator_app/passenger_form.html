@@ -8,22 +8,23 @@
         {{ form.name|as_crispy_field }}
     </div>
     <div>
+        {{ form.category|as_crispy_field }}
+    </div>
+    <div>
         {{ form.card_id|as_crispy_field }}
     </div>
-    <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-4">
-            {{ form.mobile|as_crispy_field }}
-        </div>
-        <div class="col-span-8">
-            {{ form.recharge|as_crispy_field }}
-        </div>
+    <div>
+        {{ form.mobile|as_crispy_field }}
+    </div>
+    <div>
+        {{ form.address|as_crispy_field }}
     </div>
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-4">
-            {{ form.famount|as_crispy_field }}
+            {{ form.p_from|as_crispy_field }}
         </div>
         <div class="col-span-8">
-            {{ form.balance|as_crispy_field }}
+            {{ form.p_to|as_crispy_field }}
         </div>
     </div>
     <div class="flex justify-end">
