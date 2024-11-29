@@ -1,107 +1,7 @@
-# from django.contrib.auth.models import User
-# from django.db import models
-
-# class Creator(models.Model):
-#     title = models.CharField(max_length=255)
-#     description = models.TextField(blank=True, null=True)
-#     image = models.ImageField(upload_to='uploads/creators')
-#     user = models.OneToOneField(User, related_name='creator', on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-# class Support(models.Model):
-#     creator = models.ForeignKey(Creator, related_name='supports', on_delete=models.CASCADE)
-#     amount = models.IntegerField()
-#     is_paid = models.BooleanField(default=False)
-#     cryptomus_uuid = models.UUIDField(blank=True, null=True)
-#     email = models.EmailField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
-# from django.contrib.auth.models import User
-# from django.db import models
-
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     card_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-
-# class Ticket(models.Model):
-#     user = models.ForeignKey(User, related_name='tickets', on_delete=models.CASCADE)
-#     ticket_type = models.CharField(max_length=100)  # Example: "Bus", "Train"
-#     ticket_date = models.DateField()
-#     ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-# class ReloadCard(models.Model):
-#     card_number = models.CharField(max_length=16, unique=True)
-#     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-#     user = models.ForeignKey(User, related_name='reload_cards', on_delete=models.CASCADE)
-
-# class BitcoinTransaction(models.Model):
-#     user = models.ForeignKey(User, related_name='bitcoin_transactions', on_delete=models.CASCADE)
-#     transaction_id = models.CharField(max_length=100, unique=True)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Completed', 'Completed')])
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-######################################################################################
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
-# class Creator(models.Model):
-#     title = models.CharField(max_length=255)
-#     description = models.TextField(blank=True, null=True)
-#     image = models.ImageField(upload_to='uploads/creators')
-#     user = models.OneToOneField(
-#         settings.AUTH_USER_MODEL,
-#         related_name='creator_app',  # This should match the new app name
-#         on_delete=models.CASCADE
-#     )
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
-# class Support(models.Model):
-#     creator = models.ForeignKey(Creator, related_name='supports', on_delete=models.CASCADE)
-#     amount = models.IntegerField()
-#     is_paid = models.BooleanField(default=False)
-#     cryptomus_uuid = models.UUIDField(blank=True, null=True)
-#     email = models.EmailField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     card_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-
-
-# class Ticket(models.Model):
-#     user = models.ForeignKey(User, related_name='tickets', on_delete=models.CASCADE)
-#     ticket_type = models.CharField(max_length=100)  # Example: "Bus", "Train"
-#     ticket_date = models.DateField()
-#     ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
-# class ReloadCard(models.Model):
-#     card_number = models.CharField(max_length=16, unique=True)
-#     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-#     user = models.ForeignKey(User, related_name='reload_cards', on_delete=models.CASCADE)
-
-
-# class BitcoinTransaction(models.Model):
-#     user = models.ForeignKey(User, related_name='bitcoin_transactions', on_delete=models.CASCADE)
-#     transaction_id = models.CharField(max_length=100, unique=True)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Completed', 'Completed'), ('Failed', 'Failed')])
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f"{self.transaction_id} - {self.status}"
-
-
-# class Position(models.Model):
-#     title = models.CharField(max_length=50)
 
 
 class Passenger(models.Model):
@@ -109,6 +9,7 @@ class Passenger(models.Model):
     category = models.CharField(max_length=100, blank=True, null=True)
     card_id = models.CharField(max_length=50, blank=True, null=True)
     mobile = models.CharField(max_length=15)
+    email = models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     p_from = models.CharField(max_length=100, blank=True, null=True)
     p_to =models.CharField(max_length=100, blank=True, null=True)
@@ -144,6 +45,16 @@ class AdultsCard_form(models.Model):
     adultsName = models.CharField(max_length=100)
     adultsAddress = models.CharField(max_length=150)
     adultsMobile = models.CharField(max_length=15)
+
+class CombinedData(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=150, null=True, blank=True)
+    mobile = models.CharField(max_length=15, null=True, blank=True)
+    type = models.CharField(max_length=10)  # 'child' or 'adult'
+    to_field = models.CharField(max_length=100, null=True, blank=True)
+    from_field = models.CharField(max_length=100, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+   
     
 
 class CryptoPayment(models.Model):

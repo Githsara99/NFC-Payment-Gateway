@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
 
@@ -16,3 +16,4 @@ class Support(models.Model):
     email = models.EmailField()
     cryptomus_uuid = models.UUIDField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    

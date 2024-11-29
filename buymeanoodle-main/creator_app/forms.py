@@ -1,27 +1,5 @@
-# from django.forms import ModelForm
-# from .models import Creator
- 
- 
-# class CreateForm(ModelForm):
-#     class Meta:
-#         model = Creator
-#         fields = ('title', 'description', 'image',)
- 
-
-
-# from django import forms
-
-# class TicketPurchaseForm(forms.Form):
-#     ticket_type = forms.CharField(max_length=100)
-#     ticket_price = forms.DecimalField(max_digits=10, decimal_places=2)
-
-# class ReloadCardForm(forms.Form):
-#     card_number = forms.CharField(max_length=16)
-#     amount = forms.DecimalField(max_digits=10, decimal_places=2)
-
-
 from django.forms import ModelForm
-from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form, ChildCard_form, Adults_form, AdultsCard_form
+from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form, ChildCard_form, Adults_form, AdultsCard_form, CombinedData
 from django import forms 
         
 
@@ -73,7 +51,8 @@ LOCATIONS = [
 ]
 
 CAT = [
-    ('Child', 'Adult'),
+    ('Child', 'Child'),
+    ('Adult', 'Adult'),
 ]
 
 
@@ -85,12 +64,13 @@ class PassengerForm(forms.ModelForm):
     
     class Meta:
         model = Passenger
-        fields = ('name', 'category', 'card_id', 'mobile', 'address', 'p_from', 'p_to',)
+        fields = ('name', 'category', 'card_id', 'mobile', 'email', 'address', 'p_from', 'p_to',)
         labels ={
             'name':'Name',
             'category':'Category',
             'card_id':'Card ID',
             'mobile':'Mobile',
+            'email':'Email',
             'address':'Address',
             # 'p_from':'Passenger From',
             # 'p_to':'Passenger to',   
@@ -99,6 +79,24 @@ class PassengerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PassengerForm,self).__init__(*args, **kwargs)
         self.fields['card_id'].required = False
+        
+class CombineForm(forms.ModelForm):
+    
+    from_field = forms.ChoiceField(choices=LOCATIONS, label="From")
+    to_field = forms.ChoiceField(choices=LOCATIONS, label="To")
+    type = forms.ChoiceField(choices=CAT, label="Passenger")
+    
+    class Meta:
+        model = Passenger
+        fields = ('name', 'address', 'mobile', 'type', 'from_field',  'to_field')
+        labels ={
+            'name':'Name',
+            'address':'Address',
+            'mobile':'Mobile',
+            # 'p_from':'Passenger From',
+            # 'p_to':'Passenger to',   
+        }
+       
 
 class ChildrenRegForm(forms.ModelForm):
     c_from = forms.ChoiceField(choices=LOCATIONS, label="From")

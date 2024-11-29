@@ -4,8 +4,8 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from cryptomus import Client
-from .forms import PassengerForm, PassengerRegForm, AdminPassengerRegForm, ChildrenRegForm, ChildCardForm, AdultsRegForm, AdultsCardForm
-from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form, ChildCard_form, Adults_form, AdultsCard_form
+from .forms import PassengerForm, PassengerRegForm, AdminPassengerRegForm, ChildrenRegForm, ChildCardForm, AdultsRegForm, AdultsCardForm, CombineForm
+from .models import Passenger, Passenger_Reg, Admin_Passenger_Reg, Children_form, ChildCard_form, Adults_form, AdultsCard_form, CombinedData
 import pyrebase
 import uuid
 import logging
@@ -74,22 +74,22 @@ def passenger_delete(request, id):
     return redirect('creator_app:passenger_list')
 
 
-def reg_passenger_form(request, id=0):
+def combined_form(request, id=0):
     return handle_form(
-        request, Passenger_Reg, PassengerRegForm, 'creator_app/passenger_reg.html', instance_id=id,
-        redirect_url='creator_app:reg_passenger_list'
+        request, CombinedData, CombineForm, 'creator_app/combined_reg.html', instance_id=id,
+        redirect_url='creator_app:combined_list'
     )
 
 
-def reg_passenger_list(request):
-    passengers1 = Passenger_Reg.objects.all()
-    return render(request, 'creator_app/reg_passenger_list.html', {'reg_passenger_list': passengers1})
+def combined_list(request):
+    passengers1 = CombinedData.objects.all()
+    return render(request, 'creator_app/combined_list.html', {'combined_list': passengers1})
 
 
-def reg_passenger_delete(request, id):
-    passenger1 = get_object_or_404(Passenger_Reg, pk=id)
+def combined_delete(request, id):
+    passenger1 = get_object_or_404(CombinedData, pk=id)
     passenger1.delete()
-    return redirect('creator_app:reg_passenger_list')
+    return redirect('creator_app:combined_list')
 
 
 def admin_passenger_form(request, id=0):
@@ -294,9 +294,74 @@ def webhook(request):
     return JsonResponse({"status": "failed"}, status=405)
 
 
+def get_combined_data():
+    # Query children forms
+    children_forms = Children_form.objects.all()
+    child_cards = ChildCard_form.objects.all()
+
+    # Query adults forms
+    adults_forms = Adults_form.objects.all()
+    adults_cards = AdultsCard_form.objects.all()
+
+    # Combine the data into a unified list
+    combined_data = []
+
+    # Process Children data
+    for child_form in children_forms:
+        combined_data.append({
+            'type': 'child',
+            'to': child_form.c_to,
+            'from': child_form.c_from,
+            'price': child_form.price,
+            'name': None,
+            'address': None,
+            'mobile': None,
+        })
+    for child_card in child_cards:
+        combined_data.append({
+            'type': 'child',
+            'to': None,
+            'from': None,
+            'price': None,
+            'name': child_card.childName,
+            'address': child_card.childAddress,
+            'mobile': child_card.childMobile,
+        })
+
+    # Process Adults data
+    for adult_form in adults_forms:
+        combined_data.append({
+            'type': 'adult',
+            'to': adult_form.a_to,
+            'from': adult_form.a_from,
+            'price': adult_form.price,
+            'name': None,
+            'address': None,
+            'mobile': None,
+        })
+    for adult_card in adults_cards:
+        combined_data.append({
+            'type': 'adult',
+            'to': None,
+            'from': None,
+            'price': None,
+            'name': adult_card.adultsName,
+            'address': adult_card.adultsAddress,
+            'mobile': adult_card.adultsMobile,
+        })
+
+    return combined_data
+
+
+def combined_data_view(request):
+    combined_data = get_combined_data()
+    return render(request, 'creator_app/combined_table.html', {'combined_data': combined_data})
 
 def admin_home(request):
     return render(request, 'creator_app/admin_home.html')
 
 def manage_passengers(request):
     return render(request, 'creator_app/manage_passengers.html')
+
+def combined_table(request):
+    return render(request, 'creator_app/combined_table.html')
